@@ -8,7 +8,7 @@
 
 % Szkielet dla pracy licencjackiej pisanej w języku polskim.
 
-\documentclass[polish,bachelor,a4paper,oneside]{ppfcmthesis}
+\documentclass[polish,a4paper,oneside]{ppfcmthesis}
 
 
 \usepackage[utf8]{inputenc}
@@ -21,14 +21,14 @@
 % Autorzy pracy, jeśli jest ich więcej niż jeden
 % wstaw między nimi separator \and
 \author{%
-   Pierwszy autor pracy \album{nr-indeksu} \and 
-   Drugi autor pracy \album{nr-indeksu}}
+   Jakub Zdanowski \album{127239}
+}
 \authortitle{}                                % Do not change.
 
-\title{Temat pracy dyplomowej}
+\title{Rozpoznawanie emocji w mediach społecznościowych z wykorzystaniem głębokich sieci neuronowych}
 
 % Your supervisor comes here.
-\ppsupervisor{prof.~dr hab.~inż.~Imię Nazwisko} 
+\ppsupervisor{~dr hab.~inż.~Agnieszka Ławrynowicz} 
 
 % Year of final submission (not graduation!)
 \ppyear{2020}                                 
@@ -63,9 +63,13 @@
 %Najwygodniej jeśli każdy rozdział znajduje się w oddzielnym pliku
 \mainmatter%
 \input{chapters/01-wstep.tex}
-\input{chapters/02-teoria.tex}
-\input{chapters/03-praca-wlasna.tex}
-\input{chapters/04-zakonczenie.tex}
+\input{chapters/02-podstawy-teoretyczne}
+\input{chapters/03-analiza-eksploracyjna}
+\input{chapters/04-zbiory-danych}
+\input{chapters/05-przetwarzanie-danych}
+\input{chapters/06-budowa-modeli}
+\input{chapters/07-ewaluacja-modeli}
+\input{chapters/08-zakonczenie}
 
 %--------------------------------------
 % Literatura
@@ -77,9 +81,10 @@
 % Dodatki
 %--------------------------------------
 
-\cleardoublepage\appendix%
-\newpage
-\input{chapters/zalacznik.tex}
+% EDIT: Te 3 linijki nie były zakomentowane, te nowe page może trzeba bedzie odkomentować
+% \cleardoublepage\appendix%
+% \newpage
+% \input{chapters/zalacznik.tex}
 
 %--------------------------------------
 % Informacja o prawach autorskich
