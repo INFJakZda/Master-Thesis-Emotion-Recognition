@@ -126,7 +126,7 @@ FACULTY OF COMPUTING AND TELECOMMUNICATION\\
 Institute of Computing Science
 \fi\end{center}}
 
-\pretitle{\vspace{4cm}\begin{center}%
+\pretitle{\vspace{2cm}\begin{center}%
 \if@pppolish%
   \if@ppbachelor 
      Praca dyplomowa licencjacka
@@ -153,7 +153,13 @@ Promotor\\\@ppsupervisor
 \else
 Supervisor\\\@ppsupervisor
 \fi\end{center}
-\vspace{2cm}\begin{center}POZNA\'N \@ppyear\if@pppolish\fi\end{center}
+\begin{center}
+\vspace{1cm}
+Opiekun\\\
+mgr inż. Maksymilian Marcinowski
+\end{center}
+\vspace{2cm}
+\begin{center}POZNA\'N \@ppyear\if@pppolish\fi\end{center}
 }
 
 %--------------------------------------
