@@ -154,7 +154,7 @@ Promotor\\\@ppsupervisor
 Supervisor\\\@ppsupervisor
 \fi\end{center}
 \begin{center}
-\vspace{1cm}
+\vspace{0.6cm}
 Opiekun\\\
 mgr inż. Maksymilian Marcinowski
 \end{center}
