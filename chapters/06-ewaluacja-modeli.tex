@@ -6,7 +6,7 @@ Proces nauki poszczególnych modeli rozpoczęto od zdefiniowania \textit{hiper-p
 
 \subsection{Parametry modeli LSTM}
 
-Dobrane wartości dla modeli jednowarstwowego LSTM \ref{section:one_lstm} oraz głębokiego LSTM \ref{section:deep_lstm} przedstawiono w tabeli \ref{tab:parametry_lstm}. Założenie użycia tych samych hiper-parametrów dla obu modeli było sprawdzenie wpływu głębokości (liczby warstw) modelu na wynik. Rozmiar LSTM dotyczy liczby komórek LSTM w jednej warstwie, dobór wartości 120 zależał od wielkości zbioru danych oraz od ograniczeń zasobowych. Parametr przerywania (ang. \textit{dropout}) użyty do przeciwdziałania przeuczania się modelu został wybrany z pośród dwóch wartości 0.2 oraz 0.5, okazało się że 0.2 ma lepszy wpływ na wynik. Rozmiar wektora słów dotyczy szerokości gęstej reprezentacji wektorowej każdego słowa, czym większa wartość tym więcej informacji przenoszonej przez te wektory, jednak ograniczenia zasobów pozwoliły na szerokość 100, gdzie maksymalna dostępna szerokość to 300. Pozostałe parametry dotyczą sposobu nauki modeli oraz szybkości i długości tego procesu, wartości te pozostały domyślne.
+Dobrane wartości dla modeli jednowarstwowego LSTM \ref{section:one_lstm} oraz głębokiego LSTM \ref{section:deep_lstm} przedstawiono w tabeli \ref{tab:parametry_lstm}. Założeniem użycia tych samych hiper-parametrów dla obu modeli było sprawdzenie wpływu głębokości (liczby warstw) modelu na wynik. Rozmiar LSTM dotyczy liczby komórek LSTM w jednej warstwie, dobór wartości 120 zależał od wielkości zbioru danych oraz od ograniczeń zasobowych. Parametr przerywania (ang. \textit{dropout}) użyty do przeciwdziałania przeuczania się modelu został wybrany z pośród dwóch wartości 0.2 oraz 0.5, okazało się że 0.2 ma lepszy wpływ na wynik. Rozmiar wektora słów dotyczy szerokości gęstej reprezentacji wektorowej każdego słowa, czym większa wartość tym więcej informacji przenoszonej przez te wektory, jednak ograniczenia zasobów pozwoliły na szerokość 100, gdzie maksymalna dostępna szerokość to 300. Pozostałe parametry dotyczą sposobu nauki modeli oraz szybkości i długości tego procesu, wartości te pozostały domyślne.
 
 \begin{table}[t]
 \fcmtcaption{Tabela prezentująca wybrane \textit{hiper-parametry} modeli korzystających z LSTM.}\label{tab:parametry_lstm}
@@ -27,15 +27,27 @@ wielkość grupy (ang. \textit{batch}) & 200 \\
 
 \subsection{Parametry modeli BERT}
 
-TODO
+Wybór parametrów dla architektury korzystającej z BERT opierał się głównie na sugestiach autorów tego modelu oraz doświadczeniach prowadzonych przez innych naukowców \cite{sun2019finetune}. Na czas nauki parametry wewnętrzne modelu pozostały bez zmian, konfigurowano jedynie niektóre z nich do uzyskania jak najlepszego wyniku. Wartości te przedstawiono w tabeli \ref{tab:parametry_bert}. Maksymalna szerokość wejściowego zdania dla BERT to 512, jednak ze względu ograniczeń zasobów wybrano 256. Najdłuższe zdanie występujące w korpusie miało szerokość 168 co pozwalało ograniczyć w pewien sposób zasoby pamięciowe. Kolejne dwa parametry, wskaźnik uczenia się (0.00002) oraz przerywanie (0.1) pozostawiono domyślne. Liczba epok została wybrana poprzez obserwację krzywej uczenia się oraz ewaluacji modelu na zbiorze testowym po każdej epoce. Najlepszy wynik uzyskano dla liczby epok równej 4, była to także sugerowana wartość przez autorów modelu. Po większej liczbie epok zauważono zjawisko przeuczania się, metryki dla zbioru uczącego były coraz lepsze jednak jakość dla zbioru walidacyjnego spadała. Ostatnim parametrem jest wielkość grupy (ang. \textit{batch size}), parametr ten został wybrany z pośród dwóch sugerowanych: 16 oraz 32. Dla 32 osiągnięto lepszy wynik dlatego został on wybrany.
 
-TODO
-
-TODO
+\begin{table}[t]
+\fcmtcaption{Tabela prezentująca wybrane \textit{hiper-parametry} modeli korzystających z BERT.}\label{tab:parametry_bert}
+\centering\footnotesize%
+\begin{tabular}{l c}
+\toprule
+\textit{hiper-parametr} & wartość \\
+\midrule
+Max. długość zdania   & 128 \\
+wskaźnik uczenia się   & 0.00002 \\
+przerywanie (ang. \textit{dropout})   & 0.1 \\
+liczba epok   & 4 \\
+wielkość grupy (ang. \textit{batch}) & 32 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Przebieg nauki}
 
-Do procesu nauki użyto platformę \textit{Colab}\footnote{\url{https://colab.research.google.com/}}, która umożliwia korzystanie z zasobów karty graficznej (GPU) umożliwiającej dużo wydajniejszy proces nauki modeli. Dla jednowarstwowego LSTM czas przetwarzania jednej epoki to około 9 sekund, a dla modelu głębokiego LSTM to 64 sekundy. Przy użyciu laptopa czasy te były prawie dziesięciokrotnie większe co uniemożliwiło by tak sprawne projektowanie i dostrajanie modeli.
+Do procesu nauki użyto platformę \textit{Colab}\footnote{\url{https://colab.research.google.com/}}, która daje możliwość korzystania z zasobów karty graficznej (GPU) umożliwiającej dużo wydajniejszy proces nauki modeli. Dla jednowarstwowego LSTM czas przetwarzania jednej epoki to około 9 sekund, a dla modelu głębokiego LSTM to 64 sekundy. Przy użyciu laptopa czasy te były prawie dziesięciokrotnie większe co uniemożliwiło by tak sprawne projektowanie i dostrajanie modeli.
 
 \subsection{Nauka modeli LSTM}
 
@@ -43,16 +55,18 @@ Proces nauki rozpoczęto od podstawowego modelu jednowarstwowego LSTM. Po doborz
 
 \begin{figure}[t]
 \centering\includegraphics[width=\textwidth]{figures/reports/lstm_one_deep_comparison.png}
-\fcmfcaption{Wykresy przedstawiające przebieg nauki dla modeli jednowarstwowego LSTM oraz głębokiego LSTM}\label{rys:lstm_one_deep_comparison}
+\fcmfcaption{Wykresy przedstawiające przebieg nauki dla modeli jednowarstwowego LSTM oraz głębokiego LSTM.}\label{rys:lstm_one_deep_comparison}
 \end{figure}
 
 \subsection{Nauka modeli BERT}
 
-TODO
+Proces nauki architektury korzystającej z BERT rozpoczęto od wczytania wstępnie wyuczonych modeli, był to \texttt{BertTokenizer} służący do przygotowania wejścia do modelu \texttt{BertForSequenceClassification}. Po przetworzeniu danych wejściowych oraz doborze hiper-parametrów proces nauki wyglądał następująco. Dla każdej epoki wprowadzano model w tryb treningu (\texttt{model.train()}), a podczas walidacji wyniku w tryb ewaluacji (\texttt{model.eval()}). Umożliwiało to przełączanie niektórych warstw w tryb nauki oraz dostosowanie działania przerywania w modelu. Następnie dla każdej grupy obliczano stratę (ang. \textit{loss}), oraz wykonywano obliczenie gradientów dla wszystkich parametrów (wag), po czym następował krok optymalizacyjny. Przebieg nauki zaprezentowano na rysunku \ref{rys:bert_nauka}, gdzie zauważalny jest proces przeuczenia, stąd wybrana została liczba epok równa 4.
 
-TODO
 
-TODO
+\begin{figure}[t]
+\centering\includegraphics[width=8cm]{figures/reports/bert_nauka.png}
+\fcmfcaption{Wykres przedstawiający przebieg nauki dla modeli BERT.}\label{rys:bert_nauka}
+\end{figure}
 
 \section{Metryki}
 
@@ -87,7 +101,7 @@ Główną metryką analizowaną w trakcie nauki modelu była dokładność (ang.
 dokladnosc=\frac{TP + TN}{P + N}
 \end{equation}
 
-Miara ta odwzorowuje efektywność nauki. Podczas jej obserwacji można stwierdzić czy każda kolejna epoka nauki poprawia wynik, czy też go pogarsza. Zbiór danych treningowy miał zrównoważony rozkład klas na tyle, że zastosowanie tej metryki miało sens. Niestety jeśli zestaw danych mocno niezbalansowany, tak jak w przypadku zbioru testowego miara ta może wprowadzić w błąd. Z tego powodu zastosowanie tej metryki ograniczono tylko do obserwacji procesu nauki, a ostateczną ocenę modelu wykonano na podstawie innych miar.
+Miara ta odwzorowuje efektywność nauki. Podczas jej obserwacji można stwierdzić czy każda kolejna epoka nauki poprawia wynik, czy też go pogarsza. Zbiór danych treningowy miał zrównoważony rozkład klas na tyle, że zastosowanie tej metryki miało sens. Niestety jeśli zestaw danych jest mocno niezbalansowany, tak jak w przypadku zbioru testowego miara ta może wprowadzić w błąd. Z tego powodu zastosowanie tej metryki ograniczono tylko do obserwacji procesu nauki, a ostateczną ocenę modelu wykonano na podstawie innych miar.
 
 \subsection{Ostateczna ocena modelu}
 
@@ -112,15 +126,9 @@ F1 = \frac{2 \cdot precyzja\cdot czulosc}{precyzja + czulosc}
 
 Jakość wyuczonych modeli na zbiorze treningowym porównano poprzez ewaluację predykcji tych modeli na zbiorze testowym. Głównymi założeniami porównań było sprawdzenie wpływu liczby warstw sieci neuronowej na wynik oraz porównanie tradycyjnych rekurencyjnych warstw do bardziej złożonych architektur jakim jest BERT. 
 
-Porównanie jednowarstwowej architektury LSTM  z głęboką architekturą LSTM pokazuje przewagę dla modelu głębokiego. Większa liczba warstw pomogła osiągnąć lepszy wynik miary mikro F1, jednak jest to niewielka poprawa. Można spekulować że jednowarstwowa sieć LSTM dla tego zbioru danych była wystarczająca aby osiągnąć maksimum możliwości tej architektury. Z drugiej strony użycie gęstej reprezentacji wektorowej każdego słowa mogło ograniczyć możliwości warstw LSTM i spowodować że użycie kolejnych warstw sieci pomogło na zniwelowanie tylko małych błędów. Niestety analiza wpływu na wynik poszczególnych elementów sieci neuronowej jest utrudniona co uniemożliwia wyciągnięcie jasnych i sprawdzonych wniosków.
+Porównanie jednowarstwowej architektury LSTM  z głęboką architekturą LSTM pokazuje przewagę dla modelu głębokiego. Większa liczba warstw pomogła osiągnąć lepszy wynik miary mikro F1, jednak jest to niewielka poprawa. Można spekulować że jednowarstwowa sieć LSTM dla tego zbioru danych była wystarczająca aby osiągnąć maksimum możliwości tej architektury. Z drugiej strony użycie gęstej reprezentacji wektorowej każdego słowa mogło ograniczyć możliwości warstw LSTM i spowodować, że użycie kolejnych warstw sieci pomogło na zniwelowanie tylko małych błędów. Niestety analiza wpływu na wynik poszczególnych elementów sieci neuronowej jest utrudniona co uniemożliwia wyciągnięcie jasnych i sprawdzonych wniosków.
 
-TODO BERT
-
-TODO
-
-TODO
-
-TODO
+Porównanie architektury BERT z pozostałymi daje dużą przewagę użycia tej architektury do zadań, w których niezbędne jest przetwarzanie tekstu. Dużą przewagą oraz zaletą tej architektury jest fakt że może być ona użyta to różnych zadań, zmieniając tylko jedną z ostatnich warstw. W obecnym zadaniu klasyfikacji architektura BERT sprawdziła się bardzo dobrze osiągając najlepszy wynik miary F1 (0.67).  
 
 \begin{table}[ht]
 \fcmtcaption{Tabela pokazująca wyniki poszczególnych modeli.}\label{tab:tabela_results}
