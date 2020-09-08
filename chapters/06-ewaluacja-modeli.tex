@@ -1,10 +1,10 @@
 \chapter{Ewaluacja modeli}
 
-\section{Nauka modeli}
-
-\subsection{Dobór parametrów}
+\section{Dobór parametrów}
 
 Proces nauki poszczególnych modeli rozpoczęto od zdefiniowania \textit{hiper-parametrów} \cite{probst2018tunability}. Są to parametry, których wartości są ustawione przed rozpoczęciem procesu uczenia się i definiują one zachowanie poszczególnych warstw modelu. Początkowe wartości tych parametrów zdefiniowano zgodnie z powszechnymi wartościami używanymi w podobnych architekturach oraz na podstawie załączonej literatury. Dalsze kroki polegały na dostosowaniu tych parametrów do osiągnięcia najlepszego wyniku. Dobrym sposobem na znalezienie optymalnego doboru parametrów są metody typu wyszukiwanie w siatce (ang. \textit{grid search}) oraz wyszukiwanie losowe (ang. \textit{random search}) \cite{liashchynskyi2019grid}. Polegają one na porównywaniu działania modelu z przyjętymi parametrami wybranymi z przestrzeni parametrów. Podjęto próby użycia tych metod, jednak ze względu na ograniczone zasoby obliczeniowe oraz długi czas przetwarzania ograniczono przestrzeń parametrów do minimum. Pozwoliło to na przeszukanie bardzo małego zbioru wartości co i tak dało satysfakcjonujące wyniki.
+
+\subsection{Parametry modeli LSTM}
 
 Dobrane wartości dla modeli jednowarstwowego LSTM \ref{section:one_lstm} oraz głębokiego LSTM \ref{section:deep_lstm} przedstawiono w tabeli \ref{tab:parametry_lstm}. Założenie użycia tych samych hiper-parametrów dla obu modeli było sprawdzenie wpływu głębokości (liczby warstw) modelu na wynik. Rozmiar LSTM dotyczy liczby komórek LSTM w jednej warstwie, dobór wartości 120 zależał od wielkości zbioru danych oraz od ograniczeń zasobowych. Parametr przerywania (ang. \textit{dropout}) użyty do przeciwdziałania przeuczania się modelu został wybrany z pośród dwóch wartości 0.2 oraz 0.5, okazało się że 0.2 ma lepszy wpływ na wynik. Rozmiar wektora słów dotyczy szerokości gęstej reprezentacji wektorowej każdego słowa, czym większa wartość tym więcej informacji przenoszonej przez te wektory, jednak ograniczenia zasobów pozwoliły na szerokość 100, gdzie maksymalna dostępna szerokość to 300. Pozostałe parametry dotyczą sposobu nauki modeli oraz szybkości i długości tego procesu, wartości te pozostały domyślne.
 
@@ -25,9 +25,19 @@ wielkość grupy (ang. \textit{batch}) & 200 \\
 \end{tabular}
 \end{table}
 
-\subsection{Przebieg nauki}
+\subsection{Parametry modeli BERT}
+
+TODO
+
+TODO
+
+TODO
+
+\section{Przebieg nauki}
 
 Do procesu nauki użyto platformę \textit{Colab}\footnote{\url{https://colab.research.google.com/}}, która umożliwia korzystanie z zasobów karty graficznej (GPU) umożliwiającej dużo wydajniejszy proces nauki modeli. Dla jednowarstwowego LSTM czas przetwarzania jednej epoki to około 9 sekund, a dla modelu głębokiego LSTM to 64 sekundy. Przy użyciu laptopa czasy te były prawie dziesięciokrotnie większe co uniemożliwiło by tak sprawne projektowanie i dostrajanie modeli.
+
+\subsection{Nauka modeli LSTM}
 
 Proces nauki rozpoczęto od podstawowego modelu jednowarstwowego LSTM. Po doborze hiper-parametrów związanych z architekturą modelu dobrane były odpowiednie wartości dla liczby epok oraz wskaźnika uczenia się. Zauważono że po dwudziestej epoce dokładność przekroczyła 90\%, a po setnej epoce poprawa wyników była na tyle niewielka że przerwano proces nauki. Ostateczne wyniki są przedstawione na wykresach \ref{rys:lstm_one_deep_comparison} przedstawiających przebieg nauki dla modeli jednowarstwowego LSTM oraz głębokiego LSTM. W początkowych etapach nauki wartości funkcji straty (ang. \textit{loss}) oraz dokładności (ang. \textit{accuracy}) były bardzo podobne, jednak po dziesiątej epoce widać przewagę modelu głębokiego LSTM oznaczonego kolorem pomarańczowym. Wynikać to może z dużo większej złożoności tego modelu oraz możliwości zapamiętania przez ten model większej liczby cech przechowywanych w tekście.
 
@@ -35,6 +45,14 @@ Proces nauki rozpoczęto od podstawowego modelu jednowarstwowego LSTM. Po doborz
 \centering\includegraphics[width=\textwidth]{figures/reports/lstm_one_deep_comparison.png}
 \fcmfcaption{Wykresy przedstawiające przebieg nauki dla modeli jednowarstwowego LSTM oraz głębokiego LSTM}\label{rys:lstm_one_deep_comparison}
 \end{figure}
+
+\subsection{Nauka modeli BERT}
+
+TODO
+
+TODO
+
+TODO
 
 \section{Metryki}
 
@@ -98,16 +116,22 @@ Porównanie jednowarstwowej architektury LSTM  z głęboką architekturą LSTM p
 
 TODO BERT
 
+TODO
+
+TODO
+
+TODO
+
 \begin{table}[ht]
 \fcmtcaption{Tabela pokazująca wyniki poszczególnych modeli.}\label{tab:tabela_results}
 \centering\footnotesize%
 \begin{tabular}{c c c c c}
 \toprule
-model & dokładność & mikro precyzja & micro czułość & mikro F1 \\
+model & dokładność & mikro precyzja & micro czułość & \textbf{mikro F1} \\
 \midrule
-Jednowarstwowy LSTM   & 0.85 & 0.49 & 0.70 & 0.58 \\
-Głęboki LSTM   & 0.87 & 0.51 & 0.71 & 0.60 \\
-BERT todo   & xx & xx & xxx & xxx \\
+Jednowarstwowy LSTM & 0.85 & 0.49 & 0.70 & 0.58 \\
+Głęboki LSTM & 0.87 & 0.51 & 0.71 & 0.60 \\
+BERT & \textbf{0.90} & \textbf{0.57} & \textbf{0.81} & \textbf{0.67} \\
 \bottomrule
 \end{tabular}
 \end{table}
