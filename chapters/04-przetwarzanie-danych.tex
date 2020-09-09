@@ -27,9 +27,9 @@ W przypadku głębokich sieci neuronowych z rekurencyjnymi komórkami LSTM wysoc
 
 \section{Przetwarzanie dla architektur BERT}
 
-\subsection{Tokenizacja, dodatkowe tokeny i wyrównanie}
-
 Do utworzenia reprezentacji wejściowej dla architektury BERT niezbędne było dostosowanie się do wymagań dla tego modelu. Do przetworzenia tekstu na tokeny użyto klasę \texttt{BertTokenizer} z pakietu \texttt{transformers}. Umożliwia ona zamianę reprezentacji ciągu znaków na tokeny które są mapowane dzięki wbudowanemu słownikowi w architekturę BERT za pomocą algorytmu \textit{WordPiece} \cite{wu2016googles}.
+
+\subsection{Tokenizacja, dodatkowe tokeny i wyrównanie}
 
 Tokenizacja rozkłada się na kilka etapów, jednym z nich jest dodanie specjalnych tokenów oznaczających początek (\textit{[CLS]}) oraz separację (\textit{[SEP]}) kolejnych wypowiedzi, widocznych jako Input na rysunku \ref{rys:bert_token}. Następnie wydzielone tokeny mapowane są na identyfikatory za pomocą wbudowanego słownika. W ten sposób otrzymane reprezentacje zdań zostają wyrównane do danej szerokości i przekazane do wygenerowania maski uwagi o tej samej szerokości co wyrównane zdanie. Ma to na celu wskazanie na których miejscach w zdaniu występują tokeny należące do zdania za pomocą liczby 1. Te tokeny w zdaniu które były sztucznie dodane dla celów wyrównania otrzymują liczbę 0. Tak otrzymana reprezentacja zostanie przekazana na wejście modelu korzystającego z architektury BERT.
 

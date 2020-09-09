@@ -9,6 +9,8 @@ Zbiór danych został udostępniony przez zespół z Międzynarodowych Warsztat�
 \fcmfcaption{Przykładowe dialogi w danych z EmoContext wraz z etykietą emocji.}\label{rys:examples_semeval}
 \end{figure}
 
+\subsection{Szczegóły poszczególnych zbiorów}
+
 Przez organizatorów konkursu udostępnione zostały następujące zbiory do ewaluacji własnych modeli: zbiór treningowy (\textit{train}), zbiór walidacyjny (\textit{dev}) oraz zbiór testowy (\textit{test}). Każdy z tych zbiorów zawiera tą samą strukturę danych, każdy przykład składa się z identyfikatora (\textit{Id}), trzech wypowiedzi w dialogu oraz etykiety emocji. Szczegółowe informacje na temat tych zbiorów ukazuje tabela \ref{tab:tabela_emocontext}.
 
 \begin{table}[ht]
@@ -24,6 +26,8 @@ test   & 5509 & \textit{Others} 84\% \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\subsection{Analiza zbiorów}
 
 Aby lepiej zrozumieć dane treningowe przeprowadzone zostały podstawowe analizy eksploracyjne tego zbioru. Jedną z nich jest rozkład długości całego dialogu zaprezentowany na rysunku \ref{rys:rozklad_dl_semeval}. Widzimy na nim że przeważające dialogi są dosyć krótkie, średnio 62 znaki, co może utrudnić zadanie rozpoznania właściwej emocji. Zauważyć można także występujący długi ogon w kierunku coraz dłuższych dialogów, najdłuższy z nich ma 692 znaki.
 

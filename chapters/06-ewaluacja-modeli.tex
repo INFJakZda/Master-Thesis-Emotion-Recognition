@@ -128,7 +128,7 @@ Jakość wyuczonych modeli na zbiorze treningowym porównano poprzez ewaluację 
 
 Porównanie jednowarstwowej architektury LSTM  z głęboką architekturą LSTM pokazuje przewagę dla modelu głębokiego. Większa liczba warstw pomogła osiągnąć lepszy wynik miary mikro F1, jednak jest to niewielka poprawa. Można spekulować że jednowarstwowa sieć LSTM dla tego zbioru danych była wystarczająca aby osiągnąć maksimum możliwości tej architektury. Z drugiej strony użycie gęstej reprezentacji wektorowej każdego słowa mogło ograniczyć możliwości warstw LSTM i spowodować, że użycie kolejnych warstw sieci pomogło na zniwelowanie tylko małych błędów. Niestety analiza wpływu na wynik poszczególnych elementów sieci neuronowej jest utrudniona co uniemożliwia wyciągnięcie jasnych i sprawdzonych wniosków.
 
-Porównanie architektury BERT z pozostałymi daje dużą przewagę użycia tej architektury do zadań, w których niezbędne jest przetwarzanie tekstu. Dużą przewagą oraz zaletą tej architektury jest fakt że może być ona użyta to różnych zadań, zmieniając tylko jedną z ostatnich warstw. W obecnym zadaniu klasyfikacji architektura BERT sprawdziła się bardzo dobrze osiągając najlepszy wynik miary F1 (0.67).  
+Porównanie architektury BERT z pozostałymi daje dużą przewagę użycia tej architektury do zadań, w których niezbędne jest przetwarzanie tekstu. Dużą przewagą oraz zaletą tej architektury jest fakt że może być ona użyta to różnych problemów, zmieniając tylko jedną z pierwszych lub ostatnich warstw. W obecnym zadaniu klasyfikacji architektura BERT sprawdziła się bardzo dobrze osiągając najlepszy wynik miary F1 (0.67).  
 
 \begin{table}[ht]
 \fcmtcaption{Tabela pokazująca wyniki poszczególnych modeli.}\label{tab:tabela_results}
