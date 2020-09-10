@@ -1,11 +1,11 @@
 \chapter{Podsumowanie}
 
-Zakończenie pracy zwane również Uwagami końcowymi lub Podsumowaniem powinno zawierać ustosunkowanie
-się autora do zadań wskazanych we wstępie do pracy, a w szczególności do celu i zakresu pracy oraz
-porównanie ich z faktycznymi wynikami pracy. Podejście takie umożliwia jasne określenie stopnia
-realizacji założonych celów oraz zwrócenie uwagi na wyniki osiągnięte przez autora w ramach jego
-samodzielnej pracy.
+Celem pracy było opracowanie modelu uczenia maszynowego opartego na głębokich sieciach neuronowych w celu detekcji emocji w dialogach. W jego ramach zostały zaprojektowane oraz przetestowane trzy różne architektury sieci neuronowych oraz została przeprowadzona analiza porównawcza tych modeli. Ponad to wszystkie zadania, które były niezbędne do zrealizowania tego celu także zostały wykonane. Są to między innymi zadania zapoznania się z literaturą dotyczącą głębokich sieci neuronowych i modeli emocji, przegląd oraz zapoznanie się z dostępnymi frameworkami do uczenia głębokiego, wstępna analiza wybranego zbioru danych oraz ewaluacja stworzonych modeli.
 
-Integralną częścią pracy są również dodatki, aneksy i załączniki zawierające stworzone w ramach pracy programy, aplikacje i projekty.
+Rozpoznawanie emocji z tekstu jest zadaniem, które wymaga wielu czynników do poprawnego zrozumienia danego przekazu. Aby móc odkryć właściwą etykietę emocji należy spojrzeć na przekaz jako na całość, a nie na pojedyncze wyrazy, które mogą nieść inne znaczenie w różnych kontekstach. W podobny sposób objawia się działanie przedstawionych architektur do zrozumienia języka pisanego. Tradycyjne sieci neuronowe, proste metody uczenia maszynowego lub metody zliczające nie są w stanie odkryć znaczenia wypowiedzi jako całości. Bardzo ważnym elementem jest zrozumienie kontekstu oraz poradzenie sobie z problemami takimi jak występowanie sarkazmu lub ukrytego znaczenia.
 
-Wydanie takich modeli jak \textit{GPT-3} \cite{brown2020language}...
+Architektury korzystające z rekurencyjnych komórek LSTM są skonstruowane do rozumienia długotrwałych zależności i połączeń między wyrazami występującymi w zdaniu. Dzięki nim można było odkryć znaczenie przekazu, które zależało od kilku poprzednich wypowiedzi. Jeszcze lepsza okazała się architektura korzystająca z modelu BERT. Zastosowane w niej mechanizmy samoobserwacji oraz złożona budowa pozwoliła na jeszcze dokładniejsze zrozumienie tekstu.
+
+Największym problemem w trakcie realizacji projektu okazały się ograniczenia zasobowe oraz długi czas przetwarzania modeli. Korzystanie z lokalnego laptopa do przeprowadzenia obliczeń oraz nauki modeli okazał się procesem zbyt długotrwałym oraz powodującym dużą zajętość zasobów takich jak pamięć oraz procesor. Pomocne okazały się serwisy udostępniające moce obliczeniowe w chmurze. Platforma Colab, użyta do trenowania modeli udostępniała dodatkowo dostęp do kart graficznych umożliwiających jeszcze efektywniejsze trenowanie modeli.
+
+Do realizacji pracy użyto tylko niektórych z najbardziej popularnych metod głębokiego uczenia. W trakcie realizacji pracy wydano najnowszą architekturę określaną jako nowy stan techniki w przetwarzaniu języka naturalnego \textit{GPT-3} \cite{brown2020language}. Do uzyskania jeszcze lepszych wyników warto by przetestować działanie podobnych architektur oraz poświęcić więcej czasu na lepszym doborze parametrów. Istnieje także możliwość rozwijania obecnych architektur o inne zbiory danych oraz dostosowanie ich do użycia w praktyce w prawdziwych systemach informatycznych.

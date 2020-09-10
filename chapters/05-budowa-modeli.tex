@@ -79,4 +79,61 @@ Do zaprojektowania architektury korzystającej z BERT użyto modelu udostępnion
 
 \subsection{Rozmiar modelu BERT}
 
-Model BERT występuje w dwóch rozmiarach, udostępnionych przez twórców tej metody. Są to rozmiary \textit{BASE} (12 koderów) oraz \textit{LARGE} (24 kodery). Pomimo faktu że modele są wstępnie wytrenowane posiadają bardzo dużo parametrów (wag), w przypadku rozmiaru \textit{BASE} jest to 110 milionów parametrów, a dla \textit{LARGE} jest to 340 milionów parametrów. Z powodu ograniczeń zasobowych oraz czasowych zdecydowano się na mniejszą z zaprezentowanych architektur. 
+Model BERT występuje w dwóch rozmiarach, udostępnionych przez twórców tej metody. Są to rozmiary \textit{BASE} (12 koderów) oraz \textit{LARGE} (24 kodery). Pomimo faktu że modele są wstępnie wytrenowane posiadają bardzo dużo parametrów (wag), w przypadku rozmiaru \textit{BASE} jest to 110 milionów parametrów, a dla \textit{LARGE} jest to 340 milionów parametrów.
+
+Na tak dużą liczbę parametrów w modelu \textit{LARGE} składa się dwa razy większa liczba koderów oraz większe rozmiary warstw poszczególnych koderów. Sieć wewnętrzna posiada 1024 jednostki ukryte, zamiast 768 oraz porównywalnie większy wektor reprezentujący zdanie, nazwany zagłębieniami. Z powodu ograniczeń zasobowych oraz czasowych zdecydowano się na mniejszą z zaprezentowanych architektur, która i tak dała satysfakcjonujące wyniki. Zastosowanie większego modelu nie było możliwe z powodu ograniczeń pamięciowych. Szczegóły i porównanie tych modeli ukazuje tabela \ref{tab:tabela_bert}.
+
+\begin{table}[t]
+\fcmtcaption{Tabela porównująca rozmiary poszczególnych modeli BERT.}\label{tab:tabela_bert}
+\centering\footnotesize%
+\begin{tabular}{c c c c c}
+\toprule
+model & parametry & warstwy & ukryte & zagłębienia \\
+\midrule
+BERT BASE   & 110M & 12 & 768 & 768 \\
+BERT LARGE   & 340M & 24 & 1024 & 1024 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Przygotowanie wejścia do modelu}
+
+Pierwsza warstwa modelu przyjmuje na wejście specjalnie przygotowaną reprezentację tekstu przedstawioną w sekcji \ref{section:przetwarzanie_danych_bert}. Szerokość wektora reprezentującego każde słowo to 768, jest on używany w każdym z 12 koderów dla poszczególnych słów. W ten sposób uzyskana jest macierz rozmiaru (512, 768), która reprezentuje wejściowe zdanie w każdej z kolejnych warstw.
+
+Blok ta zawiera element normalizacji warstwy dla każdej wejściowej grupy (batch), który umożliwia skrócenie czasu treningu. Dodatkowo warstwa ta zawiera metodę przerywania (\textit{dropout}), która zapobiega przetrenowaniu modelu. Szczegóły reprezentacji tej warstwy pokazuje rysunek \ref{rys:bert_embeddings}, który przedstawia blok o nazwie \texttt{BertEmbeddings} zawierający przedstawione elementy.
+
+\begin{figure}[t]
+\centering\includegraphics[width=11cm]{figures/reports/bert_embeddings.png}
+\fcmfcaption{Szczegóły budowy pierwszej warstwy wejściowej BERT.}\label{rys:bert_embeddings}
+\end{figure}
+
+\subsection{Wewnętrzne warstwy kodera}
+
+Koder zastosowany w BERT to architektura przetwarzania języka naturalnego zaprezentowana w modelu Transformera. Łącznie 12 bloków kodera jest połączonych w jeden duży blok aby wygenerować na wyjściu wektor z zakodowaną informacją. Cały ten blok odpowiedzialny jest za znalezienie relacji pomiędzy reprezentacjami wejściowymi i kodowanie ich na swoim wyjściu.
+
+Model ten reprezentuje każdy token jako reprezentacja wektorowa o szerokości 768, dodatkowo zawarta jest także informacja o położeniu każdego tokena w zdaniu. Każdy koder zawiera mechanizm samoobserwacji \texttt{BertAttention}, który oblicza uwagę dla dla każdego tokenu a następnie łączy te wyniki przekazując je do sieci neuronowej \texttt{BertOutput}. Podczas tego kroku wektorowe reprezentacje tokenów nie mają wpływu na siebie nawzajem, występuje to tylko w mechanizmie samoobserwacji.
+
+Pomiędzy dwoma głównymi elementami kodera występuje element normalizujący o nazwie \texttt{BertSelfOutput}. Dla każdej z tych warstw stosowana jest także metoda przerywania (\textit{dropout}) o wartości 0.1. Normalizacja obliczana jest na podstawie średniej i odchylenia standardowego każdego wiersza macierzy, robiona jest w celu poprawy stabilności sieci neuronowej. Budowa tego bloku zaprezentowana jest na rysunku \ref{rys:bert_layer}.
+
+\begin{figure}[t]
+\centering\includegraphics[width=12cm]{figures/reports/bert_layer.png}
+\fcmfcaption{Szczegóły budowy kodera BERT.}\label{rys:bert_layer}
+\end{figure}
+
+\subsection{Budowa klasyfikatora}
+
+Ostatnim blokiem jest warstwa mająca na celu klasyfikację odpowiedniej etykiety emocji. Wejściem do klasyfikatora jest wektor wyjściowy z kodera zawierającego informacje o tekście zebrane w fazie kodowania. Pierwszym elementem tego bloku jest warstwa \texttt{BertPooler}, mająca na celu pobranie reprezentacji wyjściowej i wykorzystanie jej do zadania klasyfikacji. Następnie warstwa liniowa jest odpowiedzialna za wybranie odpowiedniej emocji. Szczegóły tej budowy przedstawia rysunek \ref{rys:bert_classifier}.
+
+\begin{figure}[t]
+\centering\includegraphics[width=11cm]{figures/reports/bert_classifier.png}
+\fcmfcaption{Szczegóły budowy ostatniej warstwy (klasyfikatora) BERT.}\label{rys:bert_classifier}
+\end{figure}
+
+Algorytmem optymalizacyjnym wykorzystanym w tym modelu jest rozszerzony algorytm Adam \cite{kingma2014adam} o nazwie \texttt{AdamW}. Jest to algorytm stochastyczny oparty na adaptacyjnych oszacowaniach momentów pierwszego rzędu, rozszerzony o mechanizm korekty rozpadu masy (ang. \textit{weight decay}).
+
+Dodatkowo użyty został mechanizm skośnych trójkątnych współczynników uczenia (\textit{STLR}). Pozwala on na dynamiczny wzrost wartości wskaźnika uczenia wraz z kolejnymi iteracjami po czym następuje liniowy spadek tej wartości. Zabieg ten ma na celu lepszą eksploracją przestrzeni w początkowych fazach treningu oraz zapobiega utracie informacji w końcowych fazach treningu. Wykres wartości wskaźnika uczenia przedstawiono na rysunku \ref{rys:trojkatne_wskazniki}.
+
+\begin{figure}[t]
+\centering\includegraphics[width=11cm]{figures/trojkatne_wskazniki.jpg}
+\fcmfcaption{Skośne trójkątne wskaźniki uczenia w BERT.}\label{rys:trojkatne_wskazniki}
+\end{figure}

@@ -26,6 +26,7 @@ W przypadku głębokich sieci neuronowych z rekurencyjnymi komórkami LSTM wysoc
 \end{figure}
 
 \section{Przetwarzanie dla architektur BERT}
+\label{section:przetwarzanie_danych_bert}
 
 Do utworzenia reprezentacji wejściowej dla architektury BERT niezbędne było dostosowanie się do wymagań dla tego modelu. Do przetworzenia tekstu na tokeny użyto klasę \texttt{BertTokenizer} z pakietu \texttt{transformers}. Umożliwia ona zamianę reprezentacji ciągu znaków na tokeny które są mapowane dzięki wbudowanemu słownikowi w architekturę BERT za pomocą algorytmu \textit{WordPiece} \cite{wu2016googles}.
 
